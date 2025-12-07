@@ -5,23 +5,36 @@ import logo from '../src/assets/logos/Iaeste Logo Standard.png';
 export default function Navbar() {
   // ==================== STATE MANAGEMENT ====================
   const [aboutDropdown, setAboutDropdown] = useState(false);
+  const [galleryDropdown, setGalleryDropdown] = useState(false);
   const [departmentDropdown, setDepartmentDropdown] = useState(false);
+  const [testimonialsDropdown, setTestimonialsDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [aboutMobileDropdown, setAboutMobileDropdown] = useState(false);
+  const [galleryMobileDropdown, setGalleryMobileDropdown] = useState(false);
   const [departmentMobileDropdown, setDepartmentMobileDropdown] = useState(false);
+  const [testimonialsMobileDropdown, setTestimonialsMobileDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
   const location = useLocation();
   const aboutTimeoutRef = useRef(null);
+  const galleryTimeoutRef = useRef(null);
   const departmentTimeoutRef = useRef(null);
+  const testimonialsTimeoutRef = useRef(null);
 
   // ==================== EFFECTS ====================
-  // Handle scroll effect for navbar shadow
+  // Handle scroll effect for navbar shadow (throttled for performance)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -46,7 +59,9 @@ export default function Navbar() {
   useEffect(() => {
     return () => {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+      if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (departmentTimeoutRef.current) clearTimeout(departmentTimeoutRef.current);
+      if (testimonialsTimeoutRef.current) clearTimeout(testimonialsTimeoutRef.current);
     };
   }, []);
 
@@ -67,7 +82,9 @@ export default function Navbar() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setAboutMobileDropdown(false);
+    setGalleryMobileDropdown(false);
     setDepartmentMobileDropdown(false);
+    setTestimonialsMobileDropdown(false);
   };
 
   // ==================== REUSABLE COMPONENTS ====================
@@ -240,6 +257,12 @@ export default function Navbar() {
     </svg>
   );
 
+  const GalleryIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  );
+
   const HamburgerIcon = ({ isOpen }) => (
     <svg className={`w-6 h-6 transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       {isOpen ? (
@@ -252,7 +275,7 @@ export default function Navbar() {
 
   // ==================== RENDER ====================
   return (
-    <nav className={`bg-white border-b border-gray-200 sticky top-0 z-50 font-sans transition-all duration-300 ${
+    <nav className={`bg-white border-b-2 border-gray-300 sticky top-0 z-50 font-sans transition-all duration-300 ${
       scrolled ? 'shadow-lg' : 'shadow-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
@@ -279,7 +302,16 @@ export default function Navbar() {
               <DropdownLink to="/contact">Contact</DropdownLink>
             </DesktopDropdown>
 
-            <NavItem to="/benefits" label="Benefits" />
+            <DesktopDropdown
+              isOpen={galleryDropdown}
+              setIsOpen={setGalleryDropdown}
+              timeoutRef={galleryTimeoutRef}
+              buttonLabel="Gallery"
+            >
+              <DropdownLink to="/gallery/rhythm">Rhythm</DropdownLink>
+              <DropdownLink to="/gallery/membership-drive">Membership Drive</DropdownLink>
+            </DesktopDropdown>
+
             <NavItem to="/membership" label="Membership" />
 
             <DesktopDropdown
@@ -291,7 +323,15 @@ export default function Navbar() {
               <DropdownLink to="/team">Team</DropdownLink>
             </DesktopDropdown>
 
-            <NavItem to="/testimonials" label="Testimonials" />
+            <DesktopDropdown
+              isOpen={testimonialsDropdown}
+              setIsOpen={setTestimonialsDropdown}
+              timeoutRef={testimonialsTimeoutRef}
+              buttonLabel="Testimonials"
+            >
+              <DropdownLink to="/testimonials/outgoing">Outgoing</DropdownLink>
+              <DropdownLink to="/testimonials/incoming">Incoming</DropdownLink>
+            </DesktopDropdown>
           </div>
 
           {/* Apply Now Button (Desktop) */}
@@ -341,9 +381,15 @@ export default function Navbar() {
               <MobileDropdownLink to="/contact" onClick={closeMobileMenu}>Contact</MobileDropdownLink>
             </MobileDropdown>
             
-            <MobileNavLink to="/benefits" icon={<CheckIcon />} onClick={closeMobileMenu}>
-              Benefits
-            </MobileNavLink>
+            <MobileDropdown
+              isOpen={galleryMobileDropdown}
+              setIsOpen={setGalleryMobileDropdown}
+              label="Gallery"
+              icon={<GalleryIcon />}
+            >
+              <MobileDropdownLink to="/gallery/rhythm" onClick={closeMobileMenu}>Rhythm</MobileDropdownLink>
+              <MobileDropdownLink to="/gallery/membership-drive" onClick={closeMobileMenu}>Membership Drive</MobileDropdownLink>
+            </MobileDropdown>
             
             <MobileNavLink to="/membership" icon={<UsersIcon />} onClick={closeMobileMenu}>
               Membership
@@ -358,9 +404,15 @@ export default function Navbar() {
               <MobileDropdownLink to="/team" onClick={closeMobileMenu}>Team</MobileDropdownLink>
             </MobileDropdown>
 
-            <MobileNavLink to="/testimonials" icon={<ChatIcon />} onClick={closeMobileMenu}>
-              Testimonials
-            </MobileNavLink>
+            <MobileDropdown
+              isOpen={testimonialsMobileDropdown}
+              setIsOpen={setTestimonialsMobileDropdown}
+              label="Testimonials"
+              icon={<ChatIcon />}
+            >
+              <MobileDropdownLink to="/testimonials/outgoing" onClick={closeMobileMenu}>Outgoing</MobileDropdownLink>
+              <MobileDropdownLink to="/testimonials/incoming" onClick={closeMobileMenu}>Incoming</MobileDropdownLink>
+            </MobileDropdown>
           </div>
           
           {/* Apply Now Button - Fixed at Bottom */}
