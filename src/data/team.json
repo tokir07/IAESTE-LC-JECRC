@@ -1,0 +1,92 @@
+[
+  {
+    "id": "advisor",
+    "name": "Dr. X Name",
+    "role": "Faculty Advisor",
+    "bio": "Dr. X Name serves as the Faculty Advisor for IAESTE LC JECRC, providing guidance and support to ensure the success of our international exchange programs. With extensive experience in international education, Dr. X helps bridge the gap between academic excellence and global opportunities.",
+    "img": "/assets/team/advisor.jpg"
+  },
+  {
+    "id": "m1",
+    "name": "Pooja Kumari",
+    "role": "Vice President",
+    "bio": "Pooja Kumari leads strategic initiatives and oversees the day-to-day operations of IAESTE LC JECRC. With a passion for international exchange, she works tirelessly to create opportunities for students to gain global experience.",
+    "img": "/assets/team/m1.jpg"
+  },
+  {
+    "id": "m2",
+    "name": "John Doe",
+    "role": "President",
+    "bio": "John Doe serves as the President, leading the organization with vision and dedication. He coordinates with all departments to ensure smooth operations and successful program execution.",
+    "img": "/assets/team/m2.jpg"
+  },
+  {
+    "id": "m3",
+    "name": "Jane Smith",
+    "role": "Outgoing Department Head",
+    "bio": "Jane Smith heads the Outgoing Department, helping students navigate the application process for international internships. Her expertise ensures students find the best opportunities worldwide.",
+    "img": "/assets/team/m3.jpg"
+  },
+  {
+    "id": "m4",
+    "name": "Alice Johnson",
+    "role": "Incoming Department Head",
+    "bio": "Alice Johnson manages the Incoming Department, ensuring international students have a memorable and enriching experience during their stay in India.",
+    "img": "/assets/team/m4.jpg"
+  },
+  {
+    "id": "m5",
+    "name": "Bob Williams",
+    "role": "Marketing Head",
+    "bio": "Bob Williams leads the Marketing Department, creating engaging content and campaigns to promote IAESTE programs and attract new members.",
+    "img": "/assets/team/m5.jpg"
+  },
+  {
+    "id": "m6",
+    "name": "Carol Brown",
+    "role": "Events Coordinator",
+    "bio": "Carol Brown organizes exciting events and workshops that bring the IAESTE community together and create lasting memories for all participants.",
+    "img": "/assets/team/m6.jpg"
+  },
+  {
+    "id": "m7",
+    "name": "David Miller",
+    "role": "Finance Head",
+    "bio": "David Miller manages the financial operations of the organization, ensuring transparency and efficient resource allocation for all programs.",
+    "img": "/assets/team/m7.jpg"
+  },
+  {
+    "id": "m8",
+    "name": "Emma Davis",
+    "role": "Documentation Specialist",
+    "bio": "Emma Davis assists students with all documentation needs, making the visa and travel process as smooth as possible.",
+    "img": "/assets/team/m8.jpg"
+  },
+  {
+    "id": "m9",
+    "name": "Frank Wilson",
+    "role": "Technical Lead",
+    "bio": "Frank Wilson maintains the organization's digital infrastructure and develops tools to enhance member experience and operational efficiency.",
+    "img": "/assets/team/m9.jpg"
+  },
+  {
+    "id": "m10",
+    "name": "Grace Moore",
+    "role": "PR Coordinator",
+    "bio": "Grace Moore builds and maintains relationships with partners, sponsors, and stakeholders to support the organization's growth and mission.",
+    "img": "/assets/team/m10.jpg"
+  },
+  {
+    "id": "m11",
+    "name": "Henry Taylor",
+    "role": "Member",
+    "img": "/assets/team/m11.jpg"
+  },
+  {
+    "id": "m12",
+    "name": "Ivy Anderson",
+    "role": "Member",
+    "img": "/assets/team/m12.jpg"
+  }
+]
+

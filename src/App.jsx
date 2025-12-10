@@ -6,6 +6,8 @@ import Home from '../pages/Home';
 import About from '../pages/About';
 import Benefits from '../pages/Benefits';
 import Membership from '../pages/Membership';
+import Department from '../pages/Department';
+import Join from '../pages/Join';
 import LoadingScreen from '../components/LoadingScreen';
 
 export default function App() {
@@ -26,6 +28,8 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/benefits" element={<Benefits />} />
             <Route path="/membership" element={<Membership />} />
+            <Route path="/department" element={<Department />} />
+            <Route path="/join" element={<Join />} />
           </Routes>
           <Footer />
         </>
