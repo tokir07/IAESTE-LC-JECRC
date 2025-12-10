@@ -48,14 +48,15 @@ export default function Carousel({ slides = [] }) {
             {/* Image Display - Full Width */}
             {slide.backgroundImage && (
               <div
-                className="relative w-full h-full flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8"
+                className="relative w-full h-full flex items-center justify-center"
                 style={{ willChange: 'opacity', transform: 'translateZ(0)' }}
               >
                 <img 
                   src={slide.backgroundImage} 
                   alt={slide.title || `Slide ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover"
                   style={{
+                    margin: '5px',
                     boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2)',
                     willChange: 'opacity',
                     transform: 'translateZ(0)'
@@ -63,8 +64,6 @@ export default function Carousel({ slides = [] }) {
                   loading="lazy"
                   decoding="async"
                 />
-                {/* Light overlay for better image visibility */}
-                <div className="absolute inset-4 sm:inset-6 lg:inset-8 bg-black/10 rounded-lg pointer-events-none"></div>
               </div>
             )}
             
@@ -79,10 +78,10 @@ export default function Carousel({ slides = [] }) {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Hidden on mobile, visible on md and above */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none shadow-lg"
+        className="hidden md:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none shadow-lg items-center justify-center"
         aria-label="Previous slide"
       >
         <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +91,7 @@ export default function Carousel({ slides = [] }) {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none shadow-lg"
+        className="hidden md:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none shadow-lg items-center justify-center"
         aria-label="Next slide"
       >
         <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

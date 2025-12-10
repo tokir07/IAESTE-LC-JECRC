@@ -327,7 +327,7 @@ export default function Navbar() {
               isOpen={testimonialsDropdown}
               setIsOpen={setTestimonialsDropdown}
               timeoutRef={testimonialsTimeoutRef}
-              buttonLabel="Testimonials"
+              buttonLabel="Stats"
             >
               <DropdownLink to="/testimonials/outgoing">Outgoing</DropdownLink>
               <DropdownLink to="/testimonials/incoming">Incoming</DropdownLink>

@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Home from '../pages/Home';
 import About from '../pages/About';
+import Benefits from '../pages/Benefits';
+import Membership from '../pages/Membership';
 import LoadingScreen from '../components/LoadingScreen';
 
 export default function App() {
@@ -22,6 +24,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/benefits" element={<Benefits />} />
+            <Route path="/membership" element={<Membership />} />
           </Routes>
           <Footer />
         </>
