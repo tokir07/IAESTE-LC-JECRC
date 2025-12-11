@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Carousel from '../components/Carousel';
 import StatisticsCharts from '../components/StatisticsCharts';
+import HowToApply from '../components/HowToApply';
 import homeImage from '../src/assets/images/home.jpg';
 import agraImage from '../src/assets/images/Agra.jpg';
 import dinnerImage from '../src/assets/images/Dinner.jpg';
@@ -375,6 +376,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* How to Apply Section */}
+      <HowToApply />
 
       {/* Statistics Charts Section */}
       <StatisticsCharts />

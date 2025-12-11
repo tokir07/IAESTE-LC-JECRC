@@ -7,6 +7,7 @@ import About from '../pages/About';
 import Benefits from '../pages/Benefits';
 import Membership from '../pages/Membership';
 import Department from '../pages/Department';
+import Team from '../pages/Team';
 import Join from '../pages/Join';
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/benefits" element={<Benefits />} />
             <Route path="/membership" element={<Membership />} />
             <Route path="/department" element={<Department />} />
+            <Route path="/team" element={<Team />} />
             <Route path="/join" element={<Join />} />
           </Routes>
           <Footer />

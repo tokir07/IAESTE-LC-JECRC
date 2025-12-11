@@ -1,8 +1,18 @@
 import React from 'react';
 import DepartmentCard from '../components/DepartmentCard';
-import departmentsData from '../src/data/departments.json';
+import departmentsData from '/src/data/departments.json';
 
 export default function Department() {
+  if (!departmentsData || !Array.isArray(departmentsData)) {
+    return (
+      <section className="min-h-screen bg-gray-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-gray-600">Loading departments...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-gray-50 py-12 sm:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
