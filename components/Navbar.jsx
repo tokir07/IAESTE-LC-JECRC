@@ -334,13 +334,13 @@ export default function Navbar() {
             </DesktopDropdown>
           </div>
 
-          {/* Apply Now Button (Desktop) */}
+          {/* Join Membership Button (Desktop) */}
           <div className="hidden md:flex items-center ml-6 -mr-8 lg:-mr-12">
             <Link
-              to="/apply"
+              to="/membership"
               className="relative bg-[#003F68] text-white px-6 py-2.5 rounded-md hover:bg-[#003F68] transition-all duration-300 shadow-md hover:shadow-xl font-semibold text-base tracking-wide transform hover:-translate-y-1 hover:scale-105 overflow-hidden group"
             >
-              <span className="relative z-10">Apply now</span>
+              <span className="relative z-10">Join Membership</span>
               <span className="absolute inset-0 bg-[#003F68] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Link>
           </div>
@@ -415,16 +415,16 @@ export default function Navbar() {
             </MobileDropdown>
           </div>
           
-          {/* Apply Now Button - Fixed at Bottom */}
+          {/* Join Membership Button - Fixed at Bottom */}
           <div className="p-5 pt-3 border-t border-gray-200/80 bg-gradient-to-b from-white via-gray-50/50 to-white backdrop-blur-sm">
             <Link 
-              to="/apply" 
+              to="/membership" 
               onClick={closeMobileMenu}
               className="group relative block w-full text-center bg-[#003F68] text-white px-6 py-4 rounded-xl font-bold text-base hover:bg-[#003F68] active:scale-[0.98] transition-all duration-300 shadow-xl hover:shadow-2xl overflow-hidden"
             >
               <span className="relative z-10 flex items-center justify-center">
                 <CheckIcon />
-                <span className="ml-2">Apply Now</span>
+                <span className="ml-2">Join Membership</span>
               </span>
               <span className="absolute inset-0 bg-[#003F68] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Link>

@@ -14,6 +14,114 @@ import { Link } from 'react-router-dom';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 export default function StatisticsCharts() {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const chartCardVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.8,
+      y: 50,
+      rotateX: -15
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.6
+      }
+    }
+  };
+
+  const chartVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0,
+      rotate: -180
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      rotate: 0,
+      transition: {
+        type: "spring",
+        stiffness: 80,
+        damping: 12,
+        delay: 0.3
+      }
+    }
+  };
+
+  const countryBadgeVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0,
+      y: 10
+    },
+    visible: (i) => ({ 
+      opacity: 1, 
+      scale: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.03,
+        type: "spring",
+        stiffness: 200,
+        damping: 15
+      }
+    })
+  };
+
+  const legendItemVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0,
+      x: -20
+    },
+    visible: (i) => ({ 
+      opacity: 1, 
+      scale: 1,
+      x: 0,
+      transition: {
+        delay: i * 0.05,
+        type: "spring",
+        stiffness: 150,
+        damping: 12
+      }
+    })
+  };
+
+  const headerVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: -30,
+      scale: 0.9
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.5
+      }
+    }
+  };
   // Color palette matching the image
   const colors = {
     '2014-15': '#FF6B9D', // Light red/pink
@@ -197,142 +305,316 @@ export default function StatisticsCharts() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
           className="text-center mb-10 sm:mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 tracking-tight">
+          <motion.h2 
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 tracking-tight"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             Statistics
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             Our exchange program participation over the years
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Charts Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8"
+        >
           {/* Outgoing Chart */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+            variants={chartCardVariants}
+            whileHover={{ 
+              scale: 1.02,
+              y: -5,
+              transition: { type: "spring", stiffness: 300, damping: 20 }
+            }}
+            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+            style={{ perspective: "1000px" }}
           >
-            <div className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center">
+            <motion.div 
+              className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
+            >
               <h3 className="text-xl sm:text-2xl font-bold">Outgoing</h3>
-            </div>
-            <div className="relative h-64 sm:h-80 mb-6">
+            </motion.div>
+            <motion.div 
+              className="relative h-64 sm:h-80 mb-6"
+              variants={chartVariants}
+            >
               <Doughnut data={outgoingData} options={chartOptions} plugins={[ChartDataLabels]} />
-            </div>
+            </motion.div>
             
             {/* Countries List */}
-            <div className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto">
-              <h4 className="text-xs font-semibold text-[#003F68] mb-2 text-center">Participating Countries:</h4>
+            <motion.div 
+              className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <motion.h4 
+                className="text-xs font-semibold text-[#003F68] mb-2 text-center"
+                whileHover={{ scale: 1.05 }}
+              >
+                Participating Countries:
+              </motion.h4>
               <div className="space-y-2">
-                {Object.entries(outgoingCountries).map(([year, countries]) => (
-                  <div key={year} className="border-l-2 border-[#003F68]/30 pl-2">
+                {Object.entries(outgoingCountries).map(([year, countries], yearIdx) => (
+                  <motion.div 
+                    key={year} 
+                    className="border-l-2 border-[#003F68]/30 pl-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.6 + yearIdx * 0.05 }}
+                  >
                     <p className="text-xs font-semibold text-[#003F68] mb-1">{year}:</p>
                     <div className="flex flex-wrap gap-1">
                       {countries.map((country, idx) => (
-                        <span key={idx} className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200">
+                        <motion.span 
+                          key={idx} 
+                          className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200 cursor-default"
+                          custom={idx}
+                          variants={countryBadgeVariants}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          whileHover={{ 
+                            scale: 1.1, 
+                            backgroundColor: "#003F68",
+                            color: "white",
+                            borderColor: "#003F68",
+                            transition: { type: "spring", stiffness: 400 }
+                          }}
+                        >
                           {country}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="text-center mt-4">
-              <Link
-                to="/testimonials/outgoing"
-                className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            <motion.div 
+              className="text-center mt-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Outgoing
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
+                <Link
+                  to="/testimonials/outgoing"
+                  className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  Outgoing
+                  <motion.svg 
+                    className="w-4 h-4 ml-2" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </motion.svg>
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           {/* Incoming Chart */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+            variants={chartCardVariants}
+            whileHover={{ 
+              scale: 1.02,
+              y: -5,
+              transition: { type: "spring", stiffness: 300, damping: 20 }
+            }}
+            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+            style={{ perspective: "1000px" }}
           >
-            <div className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center">
+            <motion.div 
+              className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+            >
               <h3 className="text-xl sm:text-2xl font-bold">Incoming</h3>
-            </div>
-            <div className="relative h-64 sm:h-80 mb-6">
+            </motion.div>
+            <motion.div 
+              className="relative h-64 sm:h-80 mb-6"
+              variants={chartVariants}
+            >
               <Doughnut data={incomingData} options={chartOptions} plugins={[ChartDataLabels]} />
-            </div>
+            </motion.div>
             
             {/* Countries List */}
-            <div className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto">
-              <h4 className="text-xs font-semibold text-[#003F68] mb-2 text-center">Participating Countries:</h4>
+            <motion.div 
+              className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              <motion.h4 
+                className="text-xs font-semibold text-[#003F68] mb-2 text-center"
+                whileHover={{ scale: 1.05 }}
+              >
+                Participating Countries:
+              </motion.h4>
               <div className="space-y-2">
-                {Object.entries(incomingCountries).map(([year, countries]) => (
-                  <div key={year} className="border-l-2 border-[#003F68]/30 pl-2">
+                {Object.entries(incomingCountries).map(([year, countries], yearIdx) => (
+                  <motion.div 
+                    key={year} 
+                    className="border-l-2 border-[#003F68]/30 pl-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.7 + yearIdx * 0.05 }}
+                  >
                     <p className="text-xs font-semibold text-[#003F68] mb-1">{year}:</p>
                     <div className="flex flex-wrap gap-1">
                       {countries.map((country, idx) => (
-                        <span key={idx} className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200">
+                        <motion.span 
+                          key={idx} 
+                          className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200 cursor-default"
+                          custom={idx}
+                          variants={countryBadgeVariants}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          whileHover={{ 
+                            scale: 1.1, 
+                            backgroundColor: "#003F68",
+                            color: "white",
+                            borderColor: "#003F68",
+                            transition: { type: "spring", stiffness: 400 }
+                          }}
+                        >
                           {country}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="text-center mt-4">
-              <Link
-                to="/testimonials/incoming"
-                className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            <motion.div 
+              className="text-center mt-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.9, type: "spring", stiffness: 100 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Incoming
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
+                <Link
+                  to="/testimonials/incoming"
+                  className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  Incoming
+                  <motion.svg 
+                    className="w-4 h-4 ml-2" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </motion.svg>
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Legend */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.4,
+            type: "spring",
+            stiffness: 100,
+            damping: 15
+          }}
           className="bg-white rounded-xl p-6 sm:p-8 shadow-md"
+          whileHover={{ 
+            boxShadow: "0 20px 40px -10px rgba(0, 63, 104, 0.2)",
+            transition: { duration: 0.3 }
+          }}
         >
-          <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center">
+          <motion.h4 
+            className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             Academic Years
-          </h4>
+          </motion.h4>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-            {legendItems.map((item) => (
-              <div
+            {legendItems.map((item, index) => (
+              <motion.div
                 key={item.year}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 cursor-pointer group"
+                custom={index}
+                variants={legendItemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                whileHover={{ 
+                  scale: 1.15,
+                  y: -3,
+                  transition: { type: "spring", stiffness: 400 }
+                }}
               >
-                <div
+                <motion.div
                   className="w-4 h-4 rounded-full"
                   style={{ backgroundColor: item.color }}
+                  whileHover={{ 
+                    scale: 1.3,
+                    boxShadow: `0 0 10px ${item.color}`,
+                    transition: { type: "spring", stiffness: 400 }
+                  }}
                 />
-                <span className="text-sm sm:text-base font-medium text-gray-700">
+                <motion.span 
+                  className="text-sm sm:text-base font-medium text-gray-700 group-hover:text-[#003F68] transition-colors"
+                  whileHover={{ fontWeight: "bold" }}
+                >
                   {item.year}
-                </span>
-              </div>
+                </motion.span>
+              </motion.div>
             ))}
           </div>
         </motion.div>
