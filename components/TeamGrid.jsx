@@ -21,7 +21,7 @@ export default function TeamGrid() {
   let teamMembers = teamData.filter(member => member.id !== 'advisor');
   
   // Separate senior board members and board members
-  const seniorBoardRoles = ['President', 'Vice President', 'CFO'];
+  const seniorBoardRoles = ['President', 'Vice President', 'Chief Financial Officer'];
   const seniorBoardMembers = teamMembers.filter(member => 
     seniorBoardRoles.includes(member.role)
   );
@@ -31,7 +31,7 @@ export default function TeamGrid() {
   
   // Sort senior board: President, Vice President, CFO
   seniorBoardMembers.sort((a, b) => {
-    const roleOrder = { 'President': 1, 'Vice President': 2, 'CFO': 3 };
+    const roleOrder = { 'President': 1, 'Vice President': 2, 'Chief Financial Officer': 3 };
     return (roleOrder[a.role] || 999) - (roleOrder[b.role] || 999);
   });
 
@@ -44,7 +44,7 @@ export default function TeamGrid() {
     <section className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-10 sm:mb-12 text-center">
-          CORE TEAM
+          MEET OUR BOARD
         </h2>
 
         {/* Advisor Section */}
