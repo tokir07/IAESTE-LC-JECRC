@@ -297,7 +297,11 @@ export default function Outgoing() {
             <img
               src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
               alt="Plane"
+              width="256"
+              height="192"
               className="w-64 h-48 object-cover rounded-2xl shadow-md lg:mr-[-15px]"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -470,7 +474,7 @@ export default function Outgoing() {
                             <circle cx="100" cy="140" r="3" fill="#003F68" opacity="0.2"/>
                           </svg>
                         </div>
-                        <img src={story.image} alt={story.name} className="w-full h-full object-cover relative z-10" />
+                        <img src={story.image} alt={story.name} width="400" height="400" className="w-full h-full object-cover relative z-10" loading="lazy" decoding="async" />
                       </div>
                     </div>
                     <div className="flex-1 flex flex-col">
@@ -530,7 +534,7 @@ export default function Outgoing() {
                             <circle cx="100" cy="140" r="3" fill="#003F68" opacity="0.2"/>
                           </svg>
                         </div>
-                        <img src={story.image} alt={story.name} className="w-full h-full object-cover relative z-10" />
+                        <img src={story.image} alt={story.name} width="400" height="400" className="w-full h-full object-cover relative z-10" loading="lazy" decoding="async" />
                       </div>
                     </div>
                     <div className="flex-1 flex flex-col">

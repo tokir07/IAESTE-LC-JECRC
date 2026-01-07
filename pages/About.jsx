@@ -22,6 +22,59 @@ export default function About() {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="bg-gray-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-10 sm:mb-12">
+            <p className="text-sm font-semibold text-[#003F68] uppercase tracking-wide">Why IAESTE</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mt-2">Benefits of Joining</h2>
+            <p className="text-base sm:text-lg text-gray-600 mt-3">
+              From hands-on international exposure to a strong professional network, IAESTE helps you grow faster.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: 'Global Internships',
+                desc: 'Access technical internships in 80+ countries with trusted hosts.',
+              },
+              {
+                title: 'Career Boost',
+                desc: 'Stand out with real-world projects, references, and practical experience.',
+              },
+              {
+                title: 'Cultural Exchange',
+                desc: 'Work and live abroad, build cross-cultural skills and confidence.',
+              },
+              {
+                title: 'Mentorship & Support',
+                desc: 'Guidance on applications, documents, and interview prep from our team.',
+              },
+              {
+                title: 'Networking',
+                desc: 'Connect with IAESTE alumni, industry mentors, and global peers.',
+              },
+              {
+                title: 'Campus Leadership',
+                desc: 'Lead events, manage projects, and develop team skills within the LC.',
+              },
+            ].map((benefit) => (
+              <div
+                key={benefit.title}
+                className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
+              >
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#003F68]/10 text-[#003F68] font-bold mb-4">
+                  +
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">{benefit.title}</h3>
+                <p className="mt-2 text-gray-600 leading-relaxed">{benefit.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Team Section */}
       <TeamGrid />
 

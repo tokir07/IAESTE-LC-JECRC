@@ -56,7 +56,11 @@ export default function LoadingScreen({ onLoadingComplete }) {
               <img 
                 src={logo} 
                 alt="IAESTE Logo" 
+                width="200"
+                height="96"
                 className="h-16 sm:h-20 md:h-24 w-auto mx-auto object-contain"
+                loading="eager"
+                fetchPriority="high"
               />
             </motion.div>
             

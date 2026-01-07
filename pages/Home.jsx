@@ -132,8 +132,8 @@ export default function Home() {
       <Carousel slides={slides} />
       
       {/* Who we are & Why IAESTE Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 xl:gap-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Who we are Section - Left */}
           <div className="space-y-8">
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 tracking-tight">Who we are</h2>
@@ -153,15 +153,19 @@ export default function Home() {
             </div>
             
             {/* Image Carousel */}
-            <div className="pt-6 relative overflow-hidden rounded-lg border-4 border-[#003F68] shadow-xl" style={{ height: '500px' }}>
+            <div className="pt-4 relative overflow-hidden rounded-lg border-4 border-[#003F68] shadow-xl" style={{ minHeight: '300px', height: 'auto' }}>
               {imageCarousel.map((image, index) => (
                 <img 
                   key={index}
                   src={image} 
                   alt={`IAESTE ${index + 1}`} 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                  width="800"
+                  height="600"
+                  className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${
                     index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                   }`}
+                  loading="lazy"
+                  decoding="async"
                 />
               ))}
             </div>
@@ -300,12 +304,9 @@ export default function Home() {
                   <p className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
                     <span className="text-[#003F68]">₹2,900</span>
                   </p>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-gray-500">
                     Valid till graduation
                   </p>
-                  <button className="w-full bg-[#003F68] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    Buy Now
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -352,12 +353,9 @@ export default function Home() {
                   <p className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
                     <span className="text-[#003F68]">₹2,000</span>
                   </p>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-gray-500">
                     Per Year
                   </p>
-                  <button className="w-full bg-[#003F68] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    Buy Now
-                  </button>
                 </div>
               </div>
             </motion.div>

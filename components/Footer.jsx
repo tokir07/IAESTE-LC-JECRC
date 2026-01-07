@@ -105,7 +105,10 @@ export default function Footer() {
               <img 
                 src={whiteLogo} 
                 alt="IAESTE Logo" 
+                width="200"
+                height="96"
                 className="h-14 sm:h-24 w-auto object-contain"
+                loading="lazy"
               />
             </Link>
             
@@ -149,7 +152,7 @@ export default function Footer() {
           </FooterSection>
 
           {/* Resources Section */}
-          <FooterSection title="Resources" className="md:ml-2 lg:ml-4 pt-4 md:pt-6 text-left">
+          <FooterSection title="Student" className="md:ml-2 lg:ml-4 pt-4 md:pt-6 text-left">
             {resources.map((resource) => (
               <li key={resource.to}>
                 <FooterLink to={resource.to} isExternal={resource.isExternal}>

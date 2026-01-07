@@ -1,21 +1,50 @@
 import React from 'react';
-import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
-  ArcElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler,
 } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Line, Bar } from 'react-chartjs-2';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import "chart.js/auto";
-
 
 // Register Chart.js components
-ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 export default function StatisticsCharts() {
+  const [chartType, setChartType] = React.useState('line');
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [animatedOutgoing, setAnimatedOutgoing] = React.useState(0);
+  const [animatedIncoming, setAnimatedIncoming] = React.useState(0);
+  const [animatedCombined, setAnimatedCombined] = React.useState(0);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -31,20 +60,14 @@ export default function StatisticsCharts() {
   const chartCardVariants = {
     hidden: {
       opacity: 0,
-      scale: 0.8,
-      y: 50,
-      rotateX: -15
+      y: 30
     },
     visible: {
       opacity: 1,
-      scale: 1,
       y: 0,
-      rotateX: 0,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.6
+        duration: 0.5,
+        ease: "easeOut"
       }
     }
   };
@@ -52,17 +75,14 @@ export default function StatisticsCharts() {
   const chartVariants = {
     hidden: {
       opacity: 0,
-      scale: 0,
-      rotate: -180
+      scale: 0.9
     },
     visible: {
       opacity: 1,
       scale: 1,
-      rotate: 0,
       transition: {
-        type: "spring",
-        stiffness: 80,
-        damping: 12,
+        duration: 0.5,
+        ease: "easeOut",
         delay: 0.3
       }
     }
@@ -139,124 +159,134 @@ export default function StatisticsCharts() {
     '2024-25': '#B8E6B8', // Light green
   };
 
-  // Outgoing data - Total: 91 (from 2014-15 onwards: 89, excluding 2013-14: 2)
-  // Calculating percentages: 2014-15: 9, 2015-16: 2, 2016-17: 15, 2017-18: 17, 2018-19: 12, 2019-20: 1, 2020-21: 2, 2021-22: 6, 2022-23: 4, 2023-24: 8, 2024-25: 13
-  // Total from 2014: 9+2+15+17+12+1+2+6+4+8+13 = 89
-  const outgoingTotal = 89;
-  const outgoingData = {
-    labels: ['2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25'],
-    datasets: [
-      {
-        data: [
-          Math.round((9 / outgoingTotal) * 100),   // 2014-15: 10%
-          Math.round((2 / outgoingTotal) * 100),   // 2015-16: 2%
-          Math.round((15 / outgoingTotal) * 100),  // 2016-17: 17%
-          Math.round((17 / outgoingTotal) * 100),  // 2017-18: 19%
-          Math.round((12 / outgoingTotal) * 100),  // 2018-19: 13%
-          Math.round((1 / outgoingTotal) * 100),   // 2019-20: 1%
-          Math.round((2 / outgoingTotal) * 100),    // 2020-21: 2%
-          Math.round((6 / outgoingTotal) * 100),   // 2021-22: 7%
-          Math.round((4 / outgoingTotal) * 100),   // 2022-23: 4%
-          Math.round((8 / outgoingTotal) * 100),    // 2023-24: 9%
-          Math.round((13 / outgoingTotal) * 100),  // 2024-25: 15%
-        ],
-        backgroundColor: [
-          colors['2014-15'],
-          colors['2015-16'],
-          colors['2016-17'],
-          colors['2017-18'],
-          colors['2018-19'],
-          colors['2019-20'],
-          colors['2020-21'],
-          colors['2021-22'],
-          colors['2022-23'],
-          colors['2023-24'],
-          colors['2024-25'],
-        ],
-        borderColor: '#ffffff',
-        borderWidth: 3,
-        hoverBorderWidth: 4,
-      },
-    ],
-  };
+  // Base numeric data (same as Outgoing/Incoming pages)
+  const years = ['2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25'];
 
-  // Incoming data - Total: 129
-  // 2014-15: 11, 2015-16: 8, 2016-17: 24, 2017-18: 28, 2018-19: 21, 2019-20: 3, 2020-21: 2, 2021-22: 2, 2022-23: 1, 2023-24: 9, 2024-25: 20
-  const incomingTotal = 129;
-  const incomingData = {
-    labels: ['2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25'],
-    datasets: [
-      {
-        data: [
-          Math.round((11 / incomingTotal) * 100),  // 2014-15: 9%
-          Math.round((8 / incomingTotal) * 100),   // 2015-16: 6%
-          Math.round((24 / incomingTotal) * 100),  // 2016-17: 19%
-          Math.round((28 / incomingTotal) * 100),  // 2017-18: 22%
-          Math.round((21 / incomingTotal) * 100),  // 2018-19: 16%
-          Math.round((3 / incomingTotal) * 100),   // 2019-20: 2%
-          Math.round((2 / incomingTotal) * 100),    // 2020-21: 2%
-          Math.round((2 / incomingTotal) * 100),    // 2021-22: 2%
-          Math.round((1 / incomingTotal) * 100),    // 2022-23: 1%
-          Math.round((9 / incomingTotal) * 100),   // 2023-24: 7%
-          Math.round((20 / incomingTotal) * 100),  // 2024-25: 16%
-        ],
-        backgroundColor: [
-          colors['2014-15'],
-          colors['2015-16'],
-          colors['2016-17'],
-          colors['2017-18'],
-          colors['2018-19'],
-          colors['2019-20'],
-          colors['2020-21'],
-          colors['2021-22'],
-          colors['2022-23'],
-          colors['2023-24'],
-          colors['2024-25'],
-        ],
-        borderColor: '#ffffff',
-        borderWidth: 3,
-        hoverBorderWidth: 4,
-      },
-    ],
-  };
+  const outgoingCounts = [9, 2, 15, 17, 12, 1, 2, 6, 4, 8, 13];
+  const incomingCounts = [11, 8, 24, 28, 21, 3, 2, 2, 1, 9, 20];
 
-  const chartOptions = {
+  const totalOutgoing = outgoingCounts.reduce((sum, v) => sum + v, 0);
+  const totalIncoming = incomingCounts.reduce((sum, v) => sum + v, 0);
+  const totalCombined = totalOutgoing + totalIncoming;
+
+  // Animated counter effect - optimized to avoid blocking main thread
+  React.useEffect(() => {
+    if (hasAnimated) return;
+
+    // Use setTimeout instead of requestAnimationFrame for better performance
+    // This allows browser to yield control and prevent blocking
+    const animateValue = (start, end, duration, setter) => {
+      const startTime = Date.now();
+      const range = end - start;
+      const stepSize = Math.max(1, Math.floor(range / (duration / 16))); // 16ms chunks (60fps)
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = Math.floor(start + (range * progress));
+        
+        setter(currentValue);
+        
+        if (progress < 1) {
+          // Use setTimeout with 0 delay to allow browser to yield control
+          setTimeout(animate, 0);
+        }
+      };
+      
+      // Use requestIdleCallback if available, otherwise setTimeout
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(animate, { timeout: 16 });
+      } else {
+        setTimeout(animate, 0);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            const duration = 1500; // 1.5 seconds
+            
+            // Stagger animations slightly to avoid all running at once
+            setTimeout(() => {
+              animateValue(0, totalOutgoing, duration, setAnimatedOutgoing);
+            }, 0);
+            setTimeout(() => {
+              animateValue(0, totalIncoming, duration, setAnimatedIncoming);
+            }, 50);
+            setTimeout(() => {
+              animateValue(0, totalCombined, duration, setAnimatedCombined);
+            }, 100);
+            
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const statsElement = document.querySelector('[data-stats-section]');
+    if (statsElement) {
+      observer.observe(statsElement);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated, totalOutgoing, totalIncoming, totalCombined]);
+
+  const lineOptions = React.useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false, // We'll create custom legend
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            return `${context.label}: ${context.parsed}%`;
-          }
-        },
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 12,
-        titleFont: {
-          size: 14,
-          weight: 'bold'
-        },
-        bodyFont: {
-          size: 13
-        }
-      },
-      datalabels: {
-        display: true,
-        color: '#ffffff',
-        font: {
-          weight: 'bold',
-          size: 10
-        },
-        formatter: (value) => {
-          return value + '%';
-        }
+    interaction: { intersect: false, mode: 'index' },
+    layout: {
+      padding: {
+        left: isMobile ? 0 : 10,
+        right: isMobile ? 0 : 10,
+        top: 5,
+        bottom: isMobile ? 0 : 10
       }
     },
-    cutout: '60%', // Makes it a donut chart
-  };
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          color: '#003F68',
+          font: { size: isMobile ? 11 : 13, weight: '600' },
+          padding: isMobile ? 8 : 16,
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0,63,104,0.95)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        padding: 12,
+        borderColor: '#003F68',
+        borderWidth: 1,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Number of Interns', color: '#003F68', font: { size: isMobile ? 10 : 12 } },
+        ticks: { color: '#555', font: { size: isMobile ? 9 : 11 }, padding: isMobile ? 5 : 8 },
+        grid: { color: 'rgba(0,63,104,0.10)' },
+        padding: { left: isMobile ? 0 : 5, right: isMobile ? 0 : 5 }
+      },
+      x: {
+        title: { display: true, text: 'Years', color: '#003F68', font: { size: isMobile ? 10 : 12 } },
+        ticks: { color: '#555', maxRotation: isMobile ? 45 : 0, minRotation: isMobile ? 45 : 0, font: { size: isMobile ? 8 : 11 }, padding: isMobile ? 3 : 8 },
+        grid: { display: false },
+        padding: { top: isMobile ? 0 : 5, bottom: isMobile ? 0 : 5 }
+      },
+    },
+  }), [isMobile]);
+
+  const barOptions = React.useMemo(() => ({
+    ...lineOptions
+  }), [lineOptions]);
 
   // Country data for each year
   const outgoingCountries = {
@@ -321,7 +351,7 @@ export default function StatisticsCharts() {
             Statistics
           </motion.h2>
           <motion.p
-            className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto"
+            className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -329,6 +359,28 @@ export default function StatisticsCharts() {
           >
             Our exchange program participation over the years
           </motion.p>
+          
+          {/* Outgoing and Incoming Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <Link
+              to="/testimonials/outgoing"
+              className="px-6 py-3 bg-[#003F68] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:bg-[#005a8f] transition-all duration-300 transform hover:scale-105"
+            >
+              Outgoing
+            </Link>
+            <Link
+              to="/testimonials/incoming"
+              className="px-6 py-3 bg-[#ff7b2f] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:bg-[#ff8a4a] transition-all duration-300 transform hover:scale-105"
+            >
+              Incoming
+            </Link>
+          </motion.div>
         </motion.div>
 
         {/* Charts Container */}
@@ -337,289 +389,134 @@ export default function StatisticsCharts() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8"
+          className="space-y-8 mb-8"
         >
-          {/* Outgoing Chart */}
-          <motion.div
-            variants={chartCardVariants}
-            whileHover={{
-              scale: 1.02,
-              y: -5,
-              transition: { type: "spring", stiffness: 300, damping: 20 }
-            }}
-            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          {/* Toggle + Main Graph */}
+            <motion.div
+              variants={chartCardVariants}
+              whileHover={{
+                scale: 1.02,
+                y: -5,
+                transition: { type: "spring", stiffness: 300, damping: 20 }
+              }}
+            className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
             style={{ perspective: "1000px" }}
           >
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#003F68]">
+                  Outgoing vs Incoming
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 mt-1">
+                  Year-wise comparison of total interns
+                </p>
+              </div>
+              <div className="inline-flex rounded-lg bg-gray-100 p-1 self-start">
+                <button
+                  onClick={() => setChartType('line')}
+                  className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${chartType === 'line'
+                    ? 'bg-[#003F68] text-white shadow-sm'
+                    : 'text-gray-700 hover:bg-white'
+                    }`}
+                >
+                  Line
+                </button>
+                <button
+                  onClick={() => setChartType('bar')}
+                  className={`ml-1 px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${chartType === 'bar'
+                    ? 'bg-[#003F68] text-white shadow-sm'
+                    : 'text-gray-700 hover:bg-white'
+                    }`}
+                >
+                  Bar
+                </button>
+              </div>
+            </div>
+
             <motion.div
-              className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center"
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
-            >
-              <h3 className="text-xl sm:text-2xl font-bold">Outgoing</h3>
-            </motion.div>
-            <motion.div
-              className="relative h-64 sm:h-80 mb-6"
+              className="relative h-72 sm:h-80 -mx-2 sm:mx-0"
               variants={chartVariants}
             >
-              <Doughnut data={outgoingData} options={chartOptions} plugins={[ChartDataLabels]} />
-            </motion.div>
-
-            {/* Countries List */}
-            <motion.div
-              className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              <motion.h4
-                className="text-xs font-semibold text-[#003F68] mb-2 text-center"
-                whileHover={{ scale: 1.05 }}
-              >
-                Participating Countries:
-              </motion.h4>
-              <div className="space-y-2">
-                {Object.entries(outgoingCountries).map(([year, countries], yearIdx) => (
-                  <motion.div
-                    key={year}
-                    className="border-l-2 border-[#003F68]/30 pl-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6 + yearIdx * 0.05 }}
-                  >
-                    <p className="text-xs font-semibold text-[#003F68] mb-1">{year}:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {countries.map((country, idx) => (
-                        <motion.span
-                          key={idx}
-                          className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200 cursor-default"
-                          custom={idx}
-                          variants={countryBadgeVariants}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          whileHover={{
-                            scale: 1.1,
-                            backgroundColor: "#003F68",
-                            color: "white",
-                            borderColor: "#003F68",
-                            transition: { type: "spring", stiffness: 400 }
-                          }}
-                        >
-                          {country}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="text-center mt-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to="/testimonials/outgoing"
-                  className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  Outgoing
-                  <motion.svg
-                    className="w-4 h-4 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </motion.svg>
-                </Link>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Incoming Chart */}
-          <motion.div
-            variants={chartCardVariants}
-            whileHover={{
-              scale: 1.02,
-              y: -5,
-              transition: { type: "spring", stiffness: 300, damping: 20 }
-            }}
-            className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
-            style={{ perspective: "1000px" }}
-          >
-            <motion.div
-              className="bg-[#003F68] text-white px-6 py-3 rounded-lg mb-6 text-center"
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-            >
-              <h3 className="text-xl sm:text-2xl font-bold">Incoming</h3>
-            </motion.div>
-            <motion.div
-              className="relative h-64 sm:h-80 mb-6"
-              variants={chartVariants}
-            >
-              <Doughnut data={incomingData} options={chartOptions} plugins={[ChartDataLabels]} />
-            </motion.div>
-
-            {/* Countries List */}
-            <motion.div
-              className="mb-4 bg-gray-50 rounded-lg p-3 max-h-44 overflow-y-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              <motion.h4
-                className="text-xs font-semibold text-[#003F68] mb-2 text-center"
-                whileHover={{ scale: 1.05 }}
-              >
-                Participating Countries:
-              </motion.h4>
-              <div className="space-y-2">
-                {Object.entries(incomingCountries).map(([year, countries], yearIdx) => (
-                  <motion.div
-                    key={year}
-                    className="border-l-2 border-[#003F68]/30 pl-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7 + yearIdx * 0.05 }}
-                  >
-                    <p className="text-xs font-semibold text-[#003F68] mb-1">{year}:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {countries.map((country, idx) => (
-                        <motion.span
-                          key={idx}
-                          className="text-xs text-gray-700 bg-white px-2 py-0.5 rounded border border-gray-200 cursor-default"
-                          custom={idx}
-                          variants={countryBadgeVariants}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          whileHover={{
-                            scale: 1.1,
-                            backgroundColor: "#003F68",
-                            color: "white",
-                            borderColor: "#003F68",
-                            transition: { type: "spring", stiffness: 400 }
-                          }}
-                        >
-                          {country}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="text-center mt-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.9, type: "spring", stiffness: 100 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to="/testimonials/incoming"
-                  className="inline-flex items-center px-6 py-2.5 bg-[#003F68] text-white font-semibold rounded-lg hover:bg-[#005a8f] transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  Incoming
-                  <motion.svg
-                    className="w-4 h-4 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.5 }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </motion.svg>
-                </Link>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Legend */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.6,
-            delay: 0.4,
-            type: "spring",
-            stiffness: 100,
-            damping: 15
-          }}
-          className="bg-white rounded-xl p-6 sm:p-8 shadow-md"
-          whileHover={{
-            boxShadow: "0 20px 40px -10px rgba(0, 63, 104, 0.2)",
-            transition: { duration: 0.3 }
-          }}
-        >
-          <motion.h4
-            className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Academic Years
-          </motion.h4>
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-            {legendItems.map((item, index) => (
-              <motion.div
-                key={item.year}
-                className="flex items-center space-x-2 cursor-pointer group"
-                custom={index}
-                variants={legendItemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                whileHover={{
-                  scale: 1.15,
-                  y: -3,
-                  transition: { type: "spring", stiffness: 400 }
-                }}
-              >
-                <motion.div
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: item.color }}
-                  whileHover={{
-                    scale: 1.3,
-                    boxShadow: `0 0 10px ${item.color}`,
-                    transition: { type: "spring", stiffness: 400 }
+              {chartType === 'line' ? (
+                <Line
+                  data={{
+                    labels: years,
+                    datasets: [
+                      {
+                        label: 'Outgoing',
+                        data: outgoingCounts,
+                        borderColor: '#003F68',
+                        backgroundColor: 'rgba(0,63,104,0.15)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointRadius: 5,
+                      },
+                      {
+                        label: 'Incoming',
+                        data: incomingCounts,
+                        borderColor: '#ff8a4a',
+                        backgroundColor: 'rgba(255,138,74,0.15)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointRadius: 5,
+                      },
+                    ],
                   }}
+                  options={lineOptions}
                 />
-                <motion.span
-                  className="text-sm sm:text-base font-medium text-gray-700 group-hover:text-[#003F68] transition-colors"
-                  whileHover={{ fontWeight: "bold" }}
-                >
-                  {item.year}
-                </motion.span>
-              </motion.div>
-            ))}
-          </div>
+              ) : (
+                <Bar
+                  data={{
+                    labels: years,
+                    datasets: [
+                      {
+                        label: 'Outgoing',
+                        data: outgoingCounts,
+                        backgroundColor: 'rgba(0,63,104,0.9)',
+                        borderColor: '#003F68',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                      },
+                      {
+                        label: 'Incoming',
+                        data: incomingCounts,
+                        backgroundColor: 'rgba(255,138,74,0.9)',
+                        borderColor: '#ff7b2f',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                      },
+                    ],
+                  }}
+                  options={barOptions}
+                />
+              )}
+            </motion.div>
+          </motion.div>
+
+          {/* Quick Stats Cards */}
+          <motion.div
+            variants={chartCardVariants}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+            data-stats-section
+          > 
+            <div className="bg-white rounded-xl shadow-md p-4 sm:p-5 border border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-600 mb-1">Total Outgoing</p>
+              <p className="text-2xl sm:text-3xl font-bold text-[#003F68]">{animatedOutgoing}</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 sm:p-5 border border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-600 mb-1">Total Incoming</p>
+              <p className="text-2xl sm:text-3xl font-bold text-[#ff7b2f]">{animatedIncoming}</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 sm:p-5 border border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-600 mb-1">Total Internships</p>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800">{animatedCombined}</p>
+            </div>
+          </motion.div>
         </motion.div>
+
+      
       </div>
     </div>
   );

@@ -5,16 +5,19 @@ import logo from '../src/assets/logos/Iaeste Logo Standard.png';
 export default function Navbar() {
   // ==================== STATE MANAGEMENT ====================
   const [aboutDropdown, setAboutDropdown] = useState(false);
+  const [galleryDropdown, setGalleryDropdown] = useState(false);
   const [departmentDropdown, setDepartmentDropdown] = useState(false);
   const [testimonialsDropdown, setTestimonialsDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [aboutMobileDropdown, setAboutMobileDropdown] = useState(false);
+  const [galleryMobileDropdown, setGalleryMobileDropdown] = useState(false);
   const [departmentMobileDropdown, setDepartmentMobileDropdown] = useState(false);
   const [testimonialsMobileDropdown, setTestimonialsMobileDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const location = useLocation();
   const aboutTimeoutRef = useRef(null);
+  const galleryTimeoutRef = useRef(null);
   const departmentTimeoutRef = useRef(null);
   const testimonialsTimeoutRef = useRef(null);
 
@@ -56,23 +59,42 @@ export default function Navbar() {
   useEffect(() => {
     return () => {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+      if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (departmentTimeoutRef.current) clearTimeout(departmentTimeoutRef.current);
       if (testimonialsTimeoutRef.current) clearTimeout(testimonialsTimeoutRef.current);
     };
   }, []);
 
   // ==================== HELPER FUNCTIONS ====================
+  const closeAllDropdowns = () => {
+    setAboutDropdown(false);
+    setGalleryDropdown(false);
+    setDepartmentDropdown(false);
+    setTestimonialsDropdown(false);
+    // Clear all timeouts
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
+    if (departmentTimeoutRef.current) clearTimeout(departmentTimeoutRef.current);
+    if (testimonialsTimeoutRef.current) clearTimeout(testimonialsTimeoutRef.current);
+  };
+
   const handleDropdownEnter = (setDropdown, timeoutRef) => {
+    // Close all other dropdowns first
+    closeAllDropdowns();
+    // Clear timeout if exists
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
+    // Open the current dropdown
     setDropdown(true);
   };
 
   const handleDropdownLeave = (setDropdown, timeoutRef) => {
     timeoutRef.current = setTimeout(() => {
       setDropdown(false);
-    }, 200);
+      timeoutRef.current = null;
+    }, 300);
   };
 
   const closeMobileMenu = () => {
@@ -134,7 +156,11 @@ export default function Navbar() {
       {isOpen && (
         <>
           <div className="absolute top-full left-0 w-full h-2"></div>
-          <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fade-in-down overflow-hidden z-50">
+          <div 
+            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fade-in-down overflow-hidden z-50"
+            onMouseEnter={() => handleDropdownEnter(setIsOpen, timeoutRef)}
+            onMouseLeave={() => handleDropdownLeave(setIsOpen, timeoutRef)}
+          >
             {children}
           </div>
         </>
@@ -255,6 +281,12 @@ export default function Navbar() {
     </svg>
   );
 
+  const HomeIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+    </svg>
+  );
+
   const HamburgerIcon = ({ isOpen }) => (
     <svg className={`w-6 h-6 transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       {isOpen ? (
@@ -277,12 +309,18 @@ export default function Navbar() {
             <img
               src={logo}
               alt="IAESTE Logo"
+              width="200"
+              height="80"
               className="h-20 w-auto object-contain group-hover:scale-105 transition-all duration-300 ease-out"
+              loading="eager"
+              fetchPriority="high"
             />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <NavItem to="/" label="Home" />
+
             <DesktopDropdown
               isOpen={aboutDropdown}
               setIsOpen={setAboutDropdown}
@@ -293,9 +331,18 @@ export default function Navbar() {
               <DropdownLink to="/contact">Contact</DropdownLink>
             </DesktopDropdown>
 
-            <NavItem to="/gallery" label="Gallery" />
+            <DesktopDropdown
+              isOpen={galleryDropdown}
+              setIsOpen={setGalleryDropdown}
+              timeoutRef={galleryTimeoutRef}
+              buttonLabel="Gallery"
+            >
+              <DropdownLink to="/gallery">Gallery</DropdownLink>
+              <DropdownLink to="/brochure">Brochure</DropdownLink>
+              <DropdownLink to="/testimonials">Testimonials</DropdownLink>
+            </DesktopDropdown>
 
-            <NavItem to="/membership" label="Membership" />
+            <NavItem to="/employers" label="Employers" />
 
             <DesktopDropdown
               isOpen={departmentDropdown}
@@ -324,7 +371,7 @@ export default function Navbar() {
               to="/membership"
               className="relative bg-[#003F68] text-white px-6 py-2.5 rounded-md hover:bg-[#003F68] transition-all duration-300 shadow-md hover:shadow-xl font-semibold text-base tracking-wide transform hover:-translate-y-1 hover:scale-105 overflow-hidden group"
             >
-              <span className="relative z-10">Join Membership</span>
+              <span className="relative z-10">Avail Membership</span>
               <span className="absolute inset-0 bg-[#003F68] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Link>
           </div>
@@ -354,6 +401,14 @@ export default function Navbar() {
         }`}>
         <div className="flex flex-col h-full overflow-y-auto bg-gradient-to-b from-white via-gray-50/30 to-white">
           <div className="flex-1 px-3 py-6">
+            <MobileNavLink
+              to="/"
+              icon={<HomeIcon />}
+              onClick={closeMobileMenu}
+            >
+              Home
+            </MobileNavLink>
+
             <MobileDropdown
               isOpen={aboutMobileDropdown}
               setIsOpen={setAboutMobileDropdown}
@@ -364,17 +419,19 @@ export default function Navbar() {
               <MobileDropdownLink to="/contact" onClick={closeMobileMenu}>Contact</MobileDropdownLink>
             </MobileDropdown>
 
-            <MobileNavLink
-              to="/gallery"
+            <MobileDropdown
+              isOpen={galleryMobileDropdown}
+              setIsOpen={setGalleryMobileDropdown}
+              label="Gallery"
               icon={<GalleryIcon />}
-              onClick={closeMobileMenu}
             >
-              Gallery
-            </MobileNavLink>
+              <MobileDropdownLink to="/gallery" onClick={closeMobileMenu}>Gallery</MobileDropdownLink>
+              <MobileDropdownLink to="/brochure" onClick={closeMobileMenu}>Brochure</MobileDropdownLink>
+              <MobileDropdownLink to="/testimonials" onClick={closeMobileMenu}>Testimonials</MobileDropdownLink>
+            </MobileDropdown>
 
-
-            <MobileNavLink to="/membership" icon={<UsersIcon />} onClick={closeMobileMenu}>
-              Membership
+            <MobileNavLink to="/employers" icon={<UsersIcon />} onClick={closeMobileMenu}>
+              Employers
             </MobileNavLink>
 
             <MobileDropdown
@@ -390,7 +447,7 @@ export default function Navbar() {
             <MobileDropdown
               isOpen={testimonialsMobileDropdown}
               setIsOpen={setTestimonialsMobileDropdown}
-              label="Testimonials"
+              label="Stats"
               icon={<ChatIcon />}
             >
               <MobileDropdownLink to="/testimonials/outgoing" onClick={closeMobileMenu}>Outgoing</MobileDropdownLink>
@@ -407,7 +464,7 @@ export default function Navbar() {
             >
               <span className="relative z-10 flex items-center justify-center">
                 <CheckIcon />
-                <span className="ml-2">Join Membership</span>
+                <span className="ml-2">Avail Membership</span>
               </span>
               <span className="absolute inset-0 bg-[#003F68] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Link>
