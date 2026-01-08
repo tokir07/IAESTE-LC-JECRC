@@ -29,17 +29,17 @@ export default function TeamCard({ member }) {
         aria-label={member.bio ? `View ${member.name}'s profile` : undefined}
       >
         <div className="relative flex-1">
-          <div className="w-full h-80 sm:h-96 bg-gray-200 overflow-hidden">
+          <div className="w-[300px] h-[375px] bg-gray-200 overflow-hidden">
             <img
               src={member.img}
               alt={member.name}
-              width="400"
-              height="400"
-              className="w-full h-full object-cover object-center"
+              width="300"
+              height="375"
+              className="w-[300px] h-[375px] object-cover"
               loading="lazy"
               decoding="async"
               onError={(e) => {
-                e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="500"%3E%3Crect fill="%23e5e7eb" width="400" height="500"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="60" dy="10.5" font-weight="bold" x="50%25" y="50%25" text-anchor="middle"%3E' + encodeURIComponent(member.name.charAt(0)) + '%3C/text%3E%3C/svg%3E';
+                e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="375"%3E%3Crect fill="%23e5e7eb" width="300" height="375"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="60" dy="10.5" font-weight="bold" x="50%25" y="50%25" text-anchor="middle"%3E' + encodeURIComponent(member.name.charAt(0)) + '%3C/text%3E%3C/svg%3E';
               }}
             />
           </div>

@@ -34,7 +34,7 @@ export default function Carousel({ slides = [] }) {
   }
 
   return (
-    <div className="relative w-full h-[60vh] md:h-[90vh] lg:h-[95vh] overflow-hidden">
+    <div className="relative w-full h-[55vh] md:h-[82vh] lg:h-[88vh] overflow-hidden">
       {/* Carousel Container */}
       <div className="relative w-full h-full">
         {slides.map((slide, index) => (
@@ -54,14 +54,11 @@ export default function Carousel({ slides = [] }) {
                 <img 
                   src={slide.backgroundImage} 
                   alt={slide.title || `Slide ${index + 1}`}
-                  className="w-full h-full object-contain md:object-contain"
-                  width="1920"
-                  height="1080"
+                  className="w-full h-full object-cover"
                   style={{
                     boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2)',
                     willChange: 'opacity',
-                    transform: 'translateZ(0)',
-                    aspectRatio: 'auto'
+                    transform: 'translateZ(0)'
                   }}
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"

@@ -7,19 +7,19 @@ export default function Navbar() {
   const [aboutDropdown, setAboutDropdown] = useState(false);
   const [galleryDropdown, setGalleryDropdown] = useState(false);
   const [departmentDropdown, setDepartmentDropdown] = useState(false);
-  const [testimonialsDropdown, setTestimonialsDropdown] = useState(false);
+  const [statsDropdown, setStatsDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [aboutMobileDropdown, setAboutMobileDropdown] = useState(false);
   const [galleryMobileDropdown, setGalleryMobileDropdown] = useState(false);
   const [departmentMobileDropdown, setDepartmentMobileDropdown] = useState(false);
-  const [testimonialsMobileDropdown, setTestimonialsMobileDropdown] = useState(false);
+  const [statsMobileDropdown, setStatsMobileDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const location = useLocation();
   const aboutTimeoutRef = useRef(null);
   const galleryTimeoutRef = useRef(null);
   const departmentTimeoutRef = useRef(null);
-  const testimonialsTimeoutRef = useRef(null);
+  const statsTimeoutRef = useRef(null);
 
   // ==================== EFFECTS ====================
   // Handle scroll effect for navbar shadow (throttled for performance)
@@ -61,7 +61,7 @@ export default function Navbar() {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (departmentTimeoutRef.current) clearTimeout(departmentTimeoutRef.current);
-      if (testimonialsTimeoutRef.current) clearTimeout(testimonialsTimeoutRef.current);
+      if (statsTimeoutRef.current) clearTimeout(statsTimeoutRef.current);
     };
   }, []);
 
@@ -70,12 +70,12 @@ export default function Navbar() {
     setAboutDropdown(false);
     setGalleryDropdown(false);
     setDepartmentDropdown(false);
-    setTestimonialsDropdown(false);
+    setStatsDropdown(false);
     // Clear all timeouts
     if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
     if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
     if (departmentTimeoutRef.current) clearTimeout(departmentTimeoutRef.current);
-    if (testimonialsTimeoutRef.current) clearTimeout(testimonialsTimeoutRef.current);
+    if (statsTimeoutRef.current) clearTimeout(statsTimeoutRef.current);
   };
 
   const handleDropdownEnter = (setDropdown, timeoutRef) => {
@@ -102,7 +102,7 @@ export default function Navbar() {
     setAboutMobileDropdown(false);
     setGalleryMobileDropdown(false);
     setDepartmentMobileDropdown(false);
-    setTestimonialsMobileDropdown(false);
+    setStatsMobileDropdown(false);
   };
 
   // ==================== REUSABLE COMPONENTS ====================
@@ -327,6 +327,7 @@ export default function Navbar() {
               timeoutRef={aboutTimeoutRef}
               buttonLabel="About"
             >
+              <DropdownLink to="/benefits">Benefits</DropdownLink>
               <DropdownLink to="/faq">FAQ</DropdownLink>
               <DropdownLink to="/contact">Contact</DropdownLink>
             </DesktopDropdown>
@@ -339,7 +340,6 @@ export default function Navbar() {
             >
               <DropdownLink to="/gallery">Gallery</DropdownLink>
               <DropdownLink to="/brochure">Brochure</DropdownLink>
-              <DropdownLink to="/testimonials">Testimonials</DropdownLink>
             </DesktopDropdown>
 
             <NavItem to="/employers" label="Employers" />
@@ -355,9 +355,9 @@ export default function Navbar() {
             </DesktopDropdown>
 
             <DesktopDropdown
-              isOpen={testimonialsDropdown}
-              setIsOpen={setTestimonialsDropdown}
-              timeoutRef={testimonialsTimeoutRef}
+              isOpen={statsDropdown}
+              setIsOpen={setStatsDropdown}
+              timeoutRef={statsTimeoutRef}
               buttonLabel="Stats"
             >
               <DropdownLink to="/testimonials/outgoing">Outgoing</DropdownLink>
@@ -415,6 +415,7 @@ export default function Navbar() {
               label="About"
               icon={<InfoIcon />}
             >
+              <MobileDropdownLink to="/benefits" onClick={closeMobileMenu}>Benefits</MobileDropdownLink>
               <MobileDropdownLink to="/faq" onClick={closeMobileMenu}>FAQ</MobileDropdownLink>
               <MobileDropdownLink to="/contact" onClick={closeMobileMenu}>Contact</MobileDropdownLink>
             </MobileDropdown>
@@ -427,7 +428,6 @@ export default function Navbar() {
             >
               <MobileDropdownLink to="/gallery" onClick={closeMobileMenu}>Gallery</MobileDropdownLink>
               <MobileDropdownLink to="/brochure" onClick={closeMobileMenu}>Brochure</MobileDropdownLink>
-              <MobileDropdownLink to="/testimonials" onClick={closeMobileMenu}>Testimonials</MobileDropdownLink>
             </MobileDropdown>
 
             <MobileNavLink to="/employers" icon={<UsersIcon />} onClick={closeMobileMenu}>
@@ -445,8 +445,8 @@ export default function Navbar() {
             </MobileDropdown>
 
             <MobileDropdown
-              isOpen={testimonialsMobileDropdown}
-              setIsOpen={setTestimonialsMobileDropdown}
+              isOpen={statsMobileDropdown}
+              setIsOpen={setStatsMobileDropdown}
               label="Stats"
               icon={<ChatIcon />}
             >

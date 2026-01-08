@@ -299,7 +299,9 @@ export default function Outgoing() {
               alt="Plane"
               width="256"
               height="192"
-              className="w-64 h-48 object-cover rounded-2xl shadow-md lg:mr-[-15px]"
+              width="400"
+              height="300"
+              className="w-[400px] h-[300px] object-cover rounded-2xl shadow-md lg:mr-[-15px]"
               loading="lazy"
               decoding="async"
             />
@@ -463,7 +465,7 @@ export default function Outgoing() {
                 <div key={story.id} className="min-w-full px-4">
                   <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 transition-all duration-300 flex flex-col md:flex-row gap-6 relative max-w-6xl mx-auto">
                     <div className="shrink-0 mx-auto md:mx-0">
-                      <div className="w-40 h-48 md:w-32 md:h-40 rounded-2xl overflow-hidden border-4 border-[#003F68] relative mx-auto">
+                      <div className="w-[250px] h-[250px] rounded-2xl overflow-hidden border-4 border-[#003F68] relative mx-auto">
                         <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-amber-100 to-amber-50 opacity-40 z-0">
                           <svg className="w-full h-full opacity-30" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
                             <path d="M50,50 Q100,30 150,50 T200,50" stroke="#003F68" strokeWidth="1" fill="none" opacity="0.3"/>
@@ -474,7 +476,7 @@ export default function Outgoing() {
                             <circle cx="100" cy="140" r="3" fill="#003F68" opacity="0.2"/>
                           </svg>
                         </div>
-                        <img src={story.image} alt={story.name} width="400" height="400" className="w-full h-full object-cover relative z-10" loading="lazy" decoding="async" />
+                        <img src={story.image} alt={story.name} width="250" height="250" className="w-[250px] h-[250px] object-cover relative z-10" loading="lazy" decoding="async" />
                       </div>
                     </div>
                     <div className="flex-1 flex flex-col">
@@ -523,7 +525,7 @@ export default function Outgoing() {
                 <div key={story.id} className="min-w-full px-4">
                   <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 transition-all duration-300 flex flex-col md:flex-row gap-6 relative max-w-6xl mx-auto">
                     <div className="shrink-0 mx-auto md:mx-0">
-                      <div className="w-40 h-48 md:w-32 md:h-40 rounded-2xl overflow-hidden border-4 border-[#003F68] relative mx-auto">
+                      <div className="w-[250px] h-[250px] rounded-2xl overflow-hidden border-4 border-[#003F68] relative mx-auto">
                         <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-amber-100 to-amber-50 opacity-40 z-0">
                           <svg className="w-full h-full opacity-30" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
                             <path d="M50,50 Q100,30 150,50 T200,50" stroke="#003F68" strokeWidth="1" fill="none" opacity="0.3"/>
@@ -534,7 +536,7 @@ export default function Outgoing() {
                             <circle cx="100" cy="140" r="3" fill="#003F68" opacity="0.2"/>
                           </svg>
                         </div>
-                        <img src={story.image} alt={story.name} width="400" height="400" className="w-full h-full object-cover relative z-10" loading="lazy" decoding="async" />
+                        <img src={story.image} alt={story.name} width="250" height="250" className="w-[250px] h-[250px] object-cover relative z-10" loading="lazy" decoding="async" />
                       </div>
                     </div>
                     <div className="flex-1 flex flex-col">

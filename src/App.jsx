@@ -18,8 +18,8 @@ const Gallery = lazy(() => import('../pages/Gallery'));
 const FAQ = lazy(() => import('../pages/FAQ'));
 const Contact = lazy(() => import('../pages/Contact'));
 const Brochure = lazy(() => import('../pages/Brochure'));
+const Handbook = lazy(() => import('../pages/Handbook'));
 const Employers = lazy(() => import('../pages/Employers'));
-const Testimonials = lazy(() => import('../pages/Testimonials'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -81,8 +81,8 @@ export default function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/join" element={<Join />} />
               <Route path="/brochure" element={<Brochure />} />
+              <Route path="/handbook" element={<Handbook />} />
               <Route path="/employers" element={<Employers />} />
-              <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/testimonials/outgoing" element={<Outgoing />} />
               <Route path="/testimonials/incoming" element={<Incoming />} />
               <Route path="/gallery" element={<Gallery />} />

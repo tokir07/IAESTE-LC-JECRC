@@ -153,14 +153,12 @@ export default function Home() {
             </div>
             
             {/* Image Carousel */}
-            <div className="pt-4 relative overflow-hidden rounded-lg border-4 border-[#003F68] shadow-xl" style={{ minHeight: '300px', height: 'auto' }}>
+            <div className="pt-4 relative overflow-hidden rounded-lg border-4 border-[#003F68] shadow-xl w-full" style={{ minHeight: '300px', height: '400px' }}>
               {imageCarousel.map((image, index) => (
                 <img 
                   key={index}
                   src={image} 
                   alt={`IAESTE ${index + 1}`} 
-                  width="800"
-                  height="600"
                   className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${
                     index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                   }`}
@@ -465,6 +463,125 @@ export default function Home() {
 
       {/* Statistics Charts Section */}
       <StatisticsCharts />
+
+      {/* Testimonials Section */}
+      <div className="bg-gray-50 py-10 sm:py-12 lg:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-8 sm:mb-10"
+          >
+            <p className="text-sm font-semibold text-[#003F68] uppercase tracking-wide">Stories</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">What Our Students Say</h2>
+            <p className="text-base sm:text-lg text-gray-600 mt-2 max-w-2xl mx-auto">
+              Real experiences from students who have transformed their careers through IAESTE internships.
+            </p>
+          </motion.div>
+
+          {/* Testimonials Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {[
+              {
+                id: 1,
+                name: "Adnan Ayman",
+                location: "Palestine",
+                testimonial: "India was not just a training destination for me, but a journey that changed my life. Living far from home taught me independence, patience, and the ability to face challenges with confidence.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/Adnan1.jpeg",
+                type: "Incoming"
+              },
+              {
+                id: 2,
+                name: "Homa Ramezani",
+                location: "Iran",
+                testimonial: "I spent about 6 weeks at JECRC University in Jaipur. Besides working on projects, I had the chance to travel to different cities in India and enjoy the beauty of this AMAZING country.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/Homa.jpeg",
+                type: "Incoming"
+              },
+              {
+                id: 3,
+                name: "Vikram Singh",
+                location: "Jaipur, India",
+                testimonial: "I completed a remote IAESTE internship with IAESTE Burundi, focusing on Full Stack Web Development. This experience was truly enriching and one of the most rewarding chapters of my journey.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/Vikram.jpeg",
+                type: "Outgoing"
+              },
+              {
+                id: 4,
+                name: "Emna",
+                location: "Tunisia",
+                testimonial: "My IAESTE journey at JECRC University, Jaipur, was transformative, blending vibrant culture with unparalleled technical learning. The friendships and connections made here feel like family.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/emna.jpg",
+                type: "Incoming"
+              },
+              {
+                id: 5,
+                name: "Aaditya Mittal",
+                location: "Jaipur, India",
+                testimonial: "My internship at the Iran Institute of Science & Technology was an enriching experience that strengthened my academic and personal growth. I gained real research exposure and technical skills.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/Aaditya.jpeg",
+                type: "Outgoing"
+              },
+              {
+                id: 6,
+                name: "Tasuku Nagata",
+                location: "Japan",
+                testimonial: "This internship started as a short summer project but turned into a great opportunity to consolidate my knowledge and work with machine learning techniques for the first time.",
+                image: "https://www.iaestelcjecrc.com/assets/img/avatars/Tasuku.jpeg",
+                type: "Incoming"
+              }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className="bg-white rounded-xl p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                style={{
+                  boxShadow: '0 12px 25px -10px rgba(0, 0, 0, 0.18)'
+                }}
+              >
+                {/* Quote Icon */}
+                <div className="mb-3">
+                  <svg className="w-8 h-8 text-[#003F68] opacity-20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.996 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.984zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                  </svg>
+                </div>
+
+                {/* Testimonial Text */}
+                <p className="text-gray-700 text-base leading-relaxed mb-4 line-clamp-4 font-medium">
+                  "{testimonial.testimonial}"
+                </p>
+
+                {/* Author Info */}
+                <div className="flex items-center gap-3 pt-3 border-t border-gray-200">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-[#003F68]"
+                      onError={(e) => {
+                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=003F68&color=fff&size=128`;
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 text-base">{testimonial.name}</h4>
+                    <p className="text-gray-600 text-xs sm:text-sm">{testimonial.location}</p>
+                    <span className="inline-block mt-1 px-2.5 py-1 text-[11px] font-semibold rounded-full bg-[#003F68]/10 text-[#003F68]">
+                      {testimonial.type}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
